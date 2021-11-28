@@ -2,15 +2,15 @@ import './App.css';
 import React, {useState} from 'react';
 
 function App() {
-  const [input, setInput] = useState(null);
-  const [output, setOutput] = useState(null);
-  const [isInputInvalid, setIsInputInvalid] = useState(false);
+  const [input, setInput] = useState<string>('');
+  const [output, setOutput] = useState<string>('');
+  const [isInputInvalid, setIsInputInvalid] = useState<boolean>(false);
 
-  const computeOutput = (e) => {
-    const newInputValue = e.target.value;
+  const computeOutput = (e: {target: {value: string}}): void => {
+    const newInputValue: string = e.target.value;
     setInput(newInputValue);
 
-    const inputValues = newInputValue.split(',');
+    const inputValues: string[] = newInputValue.split(',');
 
     if (!validateInputValues(inputValues)) {
       setIsInputInvalid(true);  
@@ -25,14 +25,14 @@ function App() {
     setOutput(convertInputToOutput(inputValues));
   }
 
-  const validateInputValues = (inputValues) => {
-    const invalidValues = inputValues.filter((val) => isNaN(val));
+  const validateInputValues = (inputValues: string[]): boolean => {
+    const invalidValues: string[] = inputValues.filter((val: string) => isNaN(val as any));
     return invalidValues.length === 0;
   }
 
-  const convertInputToOutput = (inputValues) =>
-    inputValues.map((num) => 
-      num.trim().length === 0 ? '' : num * 2
+  const convertInputToOutput = (inputValues: string[]): string =>
+    inputValues.map((num: string) => 
+      num.trim().length === 0 ? '' : Number(num) * 2
     )
     .toString();
   
